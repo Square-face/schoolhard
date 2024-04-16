@@ -1,7 +1,11 @@
 use schoolsoft::types::SchoolListing;
 use serde::{Deserialize, Serialize};
+use typeshare::typeshare;
+
+pub type Schools = Vec<School>;
 
 #[derive(Deserialize, Serialize, PartialEq, Eq, Debug, Clone)]
+#[typeshare]
 pub struct School {
     name: String,
     url: String,
