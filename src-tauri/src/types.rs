@@ -7,9 +7,9 @@ pub type Schools = Vec<School>;
 #[derive(Deserialize, Serialize, PartialEq, Eq, Debug, Clone)]
 #[typeshare]
 pub struct School {
-    name: String,
-    url: String,
-    supported: bool,
+    pub name: String,
+    pub url: String,
+    pub supported: bool,
 }
 
 impl From<SchoolListing> for School {
