@@ -15,3 +15,12 @@ cargo tauri build
 ```
 
 The built application will be located in the `src-tauri/target/release` directory.
+
+## Development
+
+In addition to the above dependencies, you will also need to have [typeshare-cli](https://crates.io/crates/typeshare-cli) installed, if you are going to be changing types in any way.
+
+To start development, run the following command:
+```bash
+cargo tauri dev
+```
