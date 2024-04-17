@@ -13,13 +13,18 @@
 			password,
 			username,
 			school: school?.url_name
-		}).then((r) => {alert(`hello ${r}`)})
-        .catch((r) => {alert(r)});
+		})
+			.then((r) => {
+				alert(`hello ${r}`);
+			})
+			.catch((r) => {
+				alert(r);
+			});
 	}
 </script>
 
-<div class="login">
-	<div class="form">
+<div class="page">
+	<div class="login">
 		{#if school == null}
 			<label for="school">School</label>
 		{:else}
@@ -41,7 +46,7 @@
 	</div>
 
 	{#if selecting}
-		<div>
+		<div class="schoollist">
 			<List
 				on_select={(new_school) => {
 					selecting = false;
@@ -53,23 +58,24 @@
 </div>
 
 <style lang="scss">
-	.login {
+	.page {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		height: 100vh;
 		position: relative;
 
-		.form {
+		.login {
 			display: flex;
 			flex-direction: column;
 		}
-		div {
+		.schoollist {
 			position: absolute;
 			top: 0;
 			left: 0;
 			box-sizing: border-box;
 			height: calc(100vh - 3em);
+            width: calc(100vw - 3em);
 			margin: 1em;
 		}
 	}

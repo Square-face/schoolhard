@@ -9,7 +9,7 @@
 
 	let schools: School[] = [];
 	let query = '';
-	let include_unsupported = false;
+	let include_unsupported = true;
 
 	async function refresh() {
 		await invoke('schools_refresh', {});
@@ -30,7 +30,7 @@
 	<h2>Select school</h2>
     <button on:click={refresh}>Refresh</button>
 	<input type="text" bind:value={query} on:keyup={apply_filters} />
-	<ul>
+	<div>
 		{#each schools as school}
 			<Listing
 				{school}
@@ -39,7 +39,7 @@
 				}}
 			/>
 		{/each}
-	</ul>
+	</div>
 </div>
 
 <style lang="scss">
@@ -53,9 +53,14 @@
 		height: 100%;
 		overflow: hidden;
 
-		ul {
+		div {
+            display: flex;
+            flex-direction: column;
 			height: 100%;
 			overflow: scroll;
+            margin: 0;
+            padding: 10px;
+            gap: 10px;
 		}
 	}
 </style>
