@@ -9,6 +9,7 @@ pub type Schools = Vec<School>;
 pub struct School {
     pub name: String,
     pub url: String,
+    pub url_name: String,
     pub supported: bool,
 }
 
@@ -17,6 +18,7 @@ impl From<SchoolListing> for School {
         School {
             name: school.name,
             url: school.url,
+            url_name: school.url_name,
             supported: school.login_methods.student.contains(&4),
         }
     }

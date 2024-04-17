@@ -52,6 +52,27 @@ async fn schools_filter(
         .collect())
 }
 
+/// Login
+#[tauri::command]
+async fn login(
+    school: String,
+    username: String,
+    password: String,
+    client: tauri::State<'_, Arc<Mutex<Client>>>,
+) -> Result<String, String> {
+    let mut client = client.lock().await;
+
+    client
+        .login(&username, &password, &school)
+        .await
+        .map_err(|e| e.to_string())?;
+
+    match &client.user {
+        Some(u) => Ok(u.name.clone()),
+        None => Err("no usr".to_string()),
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let client = ClientBuilder::new().build();
@@ -62,8 +83,9 @@ pub fn run() {
         .manage(Arc::new(Mutex::new(schools)))
         .invoke_handler(tauri::generate_handler![
             greet,
+            login,
             schools_refresh,
-            schools_filter
+            schools_filter,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

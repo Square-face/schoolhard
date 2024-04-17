@@ -28,6 +28,7 @@
 
 <div class="school-list">
 	<h2>Select school</h2>
+    <button on:click={refresh}>Refresh</button>
 	<input type="text" bind:value={query} on:keyup={apply_filters} />
 	<ul>
 		{#each schools as school}

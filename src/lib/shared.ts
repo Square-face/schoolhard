@@ -5,6 +5,7 @@
 export interface School {
 	name: string;
 	url: string;
+	url_name: string;
 	supported: boolean;
 }
 

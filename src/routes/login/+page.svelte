@@ -1,21 +1,30 @@
 <script lang="ts">
 	import type { School } from '$lib/shared';
 	import List from './list.svelte';
+	import { invoke } from '@tauri-apps/api/core';
 
 	let school: School | null = null;
 	let username = '';
 	let password = '';
 	let selecting = false;
+
+	async function login() {
+		await invoke('login', {
+			password,
+			username,
+			school: school?.url_name
+		}).then((r) => {alert(`hello ${r}`)})
+        .catch((r) => {alert(r)});
+	}
 </script>
 
 <div class="login">
 	<div class="form">
-    
-        {#if school == null}
-            <label for="school">School</label>
-        {:else}
-            <label for="school">School: {school.name}</label>
-        {/if}
+		{#if school == null}
+			<label for="school">School</label>
+		{:else}
+			<label for="school">School: {school.name}</label>
+		{/if}
 		<button
 			on:click={() => {
 				selecting = true;
@@ -28,7 +37,7 @@
 		<label for="password">Password</label>
 		<input id="password" type="password" bind:value={password} />
 
-		<button>Login</button>
+		<button on:click={login}>Login</button>
 	</div>
 
 	{#if selecting}
@@ -59,8 +68,8 @@
 			position: absolute;
 			top: 0;
 			left: 0;
-            box-sizing: border-box;
-            height: calc(100vh - 3em);
+			box-sizing: border-box;
+			height: calc(100vh - 3em);
 			margin: 1em;
 		}
 	}
