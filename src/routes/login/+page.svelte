@@ -59,24 +59,39 @@
 
 <style lang="scss">
 	.page {
+		position: relative;
+		height: 100vh;
+        width: 100vw;
+
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		height: 100vh;
-		position: relative;
+
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
 
 		.login {
 			display: flex;
 			flex-direction: column;
 		}
+
 		.schoollist {
 			position: absolute;
 			top: 0;
 			left: 0;
-			box-sizing: border-box;
-			height: calc(100vh - 3em);
-            width: calc(100vw - 3em);
-			margin: 1em;
+
+            // calculate width and height manually to avoid scroll bars
+            // unfortunately max-height doesn't work for some reason
+			height: calc(100vh - 4em);
+            width: calc(100vw - 4em);
+
+			margin: 2em;
+            padding: 0;
+            overflow: hidden;
+
+            border-radius: 1em;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
 		}
 	}
 </style>
