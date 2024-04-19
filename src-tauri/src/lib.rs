@@ -1,8 +1,9 @@
 use std::sync::Arc;
 
 use schoolsoft::{Client, ClientBuilder};
-use tauri::async_runtime::Mutex;
-use tauri_plugin_store::StoreBuilder;
+use tauri::{async_runtime::Mutex, AppHandle};
+use tauri::Manager;
+use tauri_plugin_store::{Store, StoreBuilder};
 use types::Schools;
 
 use crate::types::School;
@@ -74,6 +75,15 @@ async fn login(
     }
 }
 
+/// check login state
+#[tauri::command]
+async fn is_logged_in(
+    app: AppHandle
+) -> Result<bool, ()> {
+    let mut store = StoreBuilder::new("./user.bin").build(app.clone());
+    store.load();
+    Ok(store.has("appkey"))
+}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -82,15 +92,10 @@ pub fn run() {
 
     tauri::Builder::default()
         .plugin(tauri_plugin_store::Builder::new().build())
-        .setup(|app| {
-            let mut store = StoreBuilder::new("./user.bin").build(app.handle().clone());
-            let _ = store.load();
-            Ok(())
-        })
         .manage(Arc::new(Mutex::new(client)))
         .manage(Arc::new(Mutex::new(schools)))
         .invoke_handler(tauri::generate_handler![
-            greet,
+            is_logged_in,
             login,
             schools_refresh,
             schools_filter,
