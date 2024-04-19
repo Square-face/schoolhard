@@ -6,7 +6,7 @@
 	let school: School | null = null;
 	let username = '';
 	let password = '';
-	let selecting = false;
+	let selecting = true;
 
 	async function login() {
 		await invoke('login', {
@@ -25,22 +25,23 @@
 
 <div class="page">
 	<div class="login">
-		{#if school == null}
-			<label for="school">School</label>
-		{:else}
-			<label for="school">School: {school.name}</label>
-		{/if}
+		<h1>Login</h1>
+
 		<button
 			on:click={() => {
 				selecting = true;
-			}}>Select</button
+			}}
 		>
+			{#if school == null}
+				Select school
+			{:else}
+				{school.name}
+			{/if}
+		</button>
 
-		<label for="username">Username</label>
-		<input id="username" type="text" bind:value={username} />
+		<input id="username" type="text" placeholder="Username" bind:value={username} />
 
-		<label for="password">Password</label>
-		<input id="password" type="password" bind:value={password} />
+		<input id="password" type="password" placeholder="Password" bind:value={password} />
 
 		<button on:click={login}>Login</button>
 	</div>
@@ -61,19 +62,43 @@
 	.page {
 		position: relative;
 		height: 100vh;
-        width: 100vw;
+		width: 100vw;
 
 		display: flex;
 		justify-content: center;
 		align-items: center;
 
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
 
 		.login {
 			display: flex;
+			gap: 0.7em;
 			flex-direction: column;
+			align-items: center;
+			padding: 1em 2em;
+
+			border-radius: 0.7em;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+
+			input[type='text'],
+			input[type='password'] {
+				padding: 0.4em 0.8em;
+				border-radius: 2.6em;
+				border: 1px solid rgba(0, 0, 0, 0.6);
+			}
+
+			button {
+				padding: 0.4em 0.8em;
+				border-radius: 2.6em;
+				border: 1px solid rgba(0, 0, 0, 0.6);
+				background: transparent;
+
+				&:hover {
+					background: rgba(0, 0, 0, 0.2);
+				}
+			}
 		}
 
 		.schoollist {
@@ -81,17 +106,17 @@
 			top: 0;
 			left: 0;
 
-            // calculate width and height manually to avoid scroll bars
-            // unfortunately max-height doesn't work for some reason
+			// calculate width and height manually to avoid scroll bars
+			// unfortunately max-height doesn't work for some reason
 			height: calc(100vh - 4em);
-            width: calc(100vw - 4em);
+			width: calc(100vw - 4em);
 
 			margin: 2em;
-            padding: 0;
-            overflow: hidden;
+			padding: 0;
+			overflow: hidden;
 
-            border-radius: 1em;
-            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+			border-radius: 1em;
+			box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
 		}
 	}
 </style>
