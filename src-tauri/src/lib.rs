@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use schoolsoft::{Client, ClientBuilder};
 use tauri::async_runtime::Mutex;
+use tauri_plugin_store::StoreBuilder;
 use types::Schools;
 
 use crate::types::School;
@@ -73,12 +74,19 @@ async fn login(
     }
 }
 
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let client = ClientBuilder::new().build();
     let schools = Schools::default();
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_store::Builder::new().build())
+        .setup(|app| {
+            let mut store = StoreBuilder::new("./user.bin").build(app.handle().clone());
+            let _ = store.load();
+            Ok(())
+        })
         .manage(Arc::new(Mutex::new(client)))
         .manage(Arc::new(Mutex::new(schools)))
         .invoke_handler(tauri::generate_handler![
